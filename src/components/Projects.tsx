@@ -1,70 +1,109 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, GitBranch } from "lucide-react";
 
 const categories = ["All", "NLP & LLM", "Computer Vision", "Analytics"];
 
 const projects = [
   {
     id: 1,
-    title: "Sentiment Analysis Engine",
-    description: "Real-time sentiment analysis using BERT transformers for social media monitoring and brand reputation management.",
+    title: "Shopee App Review Analysis",
+    description: "Scraped 3,000+ reviews and built a Topic Modeling (LDA) & Sentiment Analysis system. Identified key user pain points in shipping and app features using SVM.",
     category: "NLP & LLM",
-    tags: ["Python", "BERT", "PyTorch", "Streamlit"],
-    metric: "95% Accuracy",
+    tags: ["Python", "LDA", "IndoBERT", "SVM"],
+    metric: "87.3% Accuracy",
     featured: true,
-    image: "/placeholder.svg",
+    image: "/project-shopee.jpg", 
+    link: "https://github.com/raflinugrahasyach",
   },
   {
     id: 2,
-    title: "Customer Churn Prediction",
-    description: "Machine learning model to predict customer churn with 92% accuracy, enabling proactive retention strategies.",
-    category: "Analytics",
-    tags: ["Python", "Scikit-learn", "XGBoost"],
-    metric: "92% Accuracy",
-    featured: false,
-    image: "/placeholder.svg",
+    title: "Diabetic Retinopathy Classification",
+    description: "Utilized Transfer Learning with ResNet34 to classify the severity of diabetic retinopathy from retinal images. Implemented augmentation to handle class imbalance.",
+    category: "Computer Vision",
+    tags: ["PyTorch", "ResNet34", "CNN", "Medical AI"],
+    metric: "80.6% Accuracy",
+    featured: true,
+    image: "/project-retinopathy.png",
+    link: "https://github.com/raflinugrahasyach",
   },
   {
     id: 3,
-    title: "Document Classification System",
-    description: "Automated document classification using transformer models, processing 10K+ documents daily.",
-    category: "NLP & LLM",
-    tags: ["HuggingFace", "Transformers", "LangChain"],
-    metric: "10K+ Daily",
+    title: "BizTrack: SME Analytics Dashboard",
+    description: "Spearheaded the development of an AI-powered analytics dashboard for SMEs to track financial performance, sales trends, and operational metrics (Upgrade UMKM).",
+    category: "Analytics",
+    tags: ["AI Dashboard", "Data Analytics", "Business Intel"],
+    metric: "Live Production",
     featured: true,
-    image: "/placeholder.svg",
+    image: "/project-biztrack.png", // Jangan lupa siapkan gambar ini!
+    link: "https://github.com/raflinugrahasyach",
   },
   {
     id: 4,
-    title: "Object Detection Pipeline",
-    description: "Real-time object detection system using YOLO for inventory management and quality control.",
-    category: "Computer Vision",
-    tags: ["TensorFlow", "YOLO", "OpenCV"],
-    metric: "30 FPS",
+    title: "Sentiment Analysis: Indo Social Media",
+    description: "Compared LSTM and MLP models to classify sentiments in 11,000+ Indonesian social media comments. Deployed the best model via Flask API with Swagger UI.",
+    category: "NLP & LLM",
+    tags: ["Python", "LSTM", "Flask API", "Deep Learning"],
+    metric: "85% Accuracy (LSTM)",
     featured: false,
-    image: "/placeholder.svg",
+    image: "/project-lstm.png", 
+    link: "https://github.com/raflinugrahasyach",
   },
   {
     id: 5,
-    title: "Sales Forecasting Dashboard",
-    description: "Interactive Tableau dashboard with time series forecasting for strategic business planning.",
-    category: "Analytics",
-    tags: ["Python", "Tableau", "Prophet"],
-    metric: "98% Forecast Accuracy",
+    title: "EV Perception Analysis (Mobil Listrik)",
+    description: "Analyzed public perception of Electric Vehicles from YouTube comments using TF-IDF and Machine Learning. Logistic Regression emerged as the best model.",
+    category: "NLP & LLM",
+    tags: ["Python", "Logistic Regression", "TF-IDF", "Sastrawi"],
+    metric: "65.1% Accuracy",
     featured: false,
-    image: "/placeholder.svg",
+    image: "/project-ev.png", 
+    link: "https://github.com/raflinugrahasyach",
   },
   {
     id: 6,
-    title: "Chatbot with LLM Integration",
-    description: "Intelligent customer service chatbot powered by GPT-4, handling 1000+ queries daily with high satisfaction.",
-    category: "NLP & LLM",
-    tags: ["GPT-4", "LangChain", "Python"],
-    metric: "4.8/5 Rating",
-    featured: true,
-    image: "/placeholder.svg",
+    title: "Rock-Paper-Scissors Classifier",
+    description: "Built a CNN model to classify hand gestures for Rock-Paper-Scissors game. Optimized using Adam optimizer and categorical crossentropy loss.",
+    category: "Computer Vision",
+    tags: ["TensorFlow", "Keras", "CNN", "Image Proc"],
+    metric: "91% Val Accuracy",
+    featured: false,
+    image: "/project-rps.png", 
+    link: "https://github.com/raflinugrahasyach",
+  },
+  {
+    id: 7,
+    title: "Vehicle CO2 Emission Prediction",
+    description: "Developed a predictive model using XGBoost Regressor to estimate vehicle CO2 emissions based on engine features for environmental sustainability.",
+    category: "Analytics",
+    tags: ["Python", "XGBoost", "Regression"],
+    metric: "RMSE 20.34",
+    featured: false,
+    image: "/project-emission.png",
+    link: "https://github.com/raflinugrahasyach",
+  },
+  {
+    id: 8,
+    title: "Kuningan Socio-Economic Dashboard",
+    description: "Interactive Power BI dashboard visualizing poverty depth, HDI, and regional revenue to support government decision-making in Kuningan Regency.",
+    category: "Analytics",
+    tags: ["Power BI", "Data Viz", "Public Policy"],
+    metric: "Gov Insights",
+    featured: false,
+    image: "/project-kuningan.png",
+    link: "https://github.com/raflinugrahasyach",
+  },
+  {
+    id: 9,
+    title: "Bike Sharing Exploratory Analysis",
+    description: "Comprehensive EDA on bike-sharing datasets to uncover trends related to weather, seasons, and time, visualizing peak rental periods.",
+    category: "Analytics",
+    tags: ["Python", "Data Analysis", "Visualization"],
+    metric: "Trend Discovery",
+    featured: false,
+    image: "/project-bike.webp", 
+    link: "https://github.com/raflinugrahasyach",
   },
 ];
 
@@ -105,7 +144,7 @@ export const Projects = () => {
               onClick={() => setActiveCategory(category)}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
                 activeCategory === category
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary text-primary-foreground shadow-md"
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
               }`}
             >
@@ -123,40 +162,50 @@ export const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className={`group bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer ${
+              className={`group bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-default ${
                 project.featured ? "lg:col-span-2" : ""
               }`}
             >
-              <div className="relative h-48 overflow-hidden bg-muted">
+              <div className="relative h-52 overflow-hidden bg-muted">
+                {/* Placeholder Image Logic */}
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onError={(e) => {
+                    e.currentTarget.src = "/placeholder.svg"; // Fallback jika gambar belum ada
+                  }}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                 />
-                <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold border border-white/10">
                   {project.metric}
                 </div>
               </div>
               
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 group-hover:text-accent transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground mb-4 line-clamp-2">
+                <div className="flex justify-between items-start mb-3">
+                    <div>
+                        <span className="text-xs font-semibold text-accent uppercase tracking-wider mb-1 block">{project.category}</span>
+                        <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+                        {project.title}
+                        </h3>
+                    </div>
+                    <div className="flex gap-2">
+                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="p-2 bg-muted rounded-full hover:bg-primary hover:text-white transition-colors">
+                            <GitBranch className="w-4 h-4" />
+                        </a>
+                    </div>
+                </div>
+                
+                <p className="text-muted-foreground mb-5 text-sm leading-relaxed">
                   {project.description}
                 </p>
                 
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-xs">
+                    <Badge key={tag} variant="secondary" className="text-xs font-normal px-2 py-1 bg-secondary/50">
                       {tag}
                     </Badge>
                   ))}
-                </div>
-
-                <div className="flex items-center text-accent font-medium text-sm group-hover:translate-x-1 transition-transform">
-                  View Case Study
-                  <ArrowUpRight className="w-4 h-4 ml-1" />
                 </div>
               </div>
             </motion.div>

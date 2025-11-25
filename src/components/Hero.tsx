@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Linkedin, Github, Mail } from "lucide-react";
+import { Linkedin, Github, Mail, FileText } from "lucide-react";
 
 export const Hero = () => {
   return (
@@ -30,29 +30,33 @@ export const Hero = () => {
             </h1>
 
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Data Scientist specializing in NLP, LLM, and Predictive Analytics. 
-              Bridging the gap between raw data and strategic decision-making.
+              Data Scientist specializing in <b>NLP, LLM, and Computer Vision</b>. 
+              I bridge the gap between raw data and strategic decision-making with <b>95%+ model accuracy</b>.
             </p>
 
             <div className="flex items-center gap-4 pt-4">
-              <Button
-                size="lg"
-                className="rounded-full bg-primary hover:bg-primary/90"
-              >
-                View Projects
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="rounded-full"
-              >
-                Contact Me
-              </Button>
+              <a href="#projects">
+                <Button
+                  size="lg"
+                  className="rounded-full bg-primary hover:bg-primary/90"
+                >
+                  View Projects
+                </Button>
+              </a>
+              <a href="#contact">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full"
+                >
+                  Contact Me
+                </Button>
+              </a>
             </div>
 
             <div className="flex items-center gap-4 pt-4">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/raflinugrahasyach/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full border border-border hover:bg-muted transition-colors"
@@ -60,7 +64,7 @@ export const Hero = () => {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/raflinugrahasyach"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full border border-border hover:bg-muted transition-colors"
@@ -68,10 +72,18 @@ export const Hero = () => {
                 <Github className="w-5 h-5" />
               </a>
               <a
-                href="mailto:contact@example.com"
+                href="mailto:raflinugrahasyach26@gmail.com"
                 className="p-3 rounded-full border border-border hover:bg-muted transition-colors"
               >
                 <Mail className="w-5 h-5" />
+              </a>
+               {/* Opsi jika punya link CV langsung */}
+               <a
+                href="#" 
+                className="p-3 rounded-full border border-border hover:bg-muted transition-colors"
+                title="Download Resume"
+              >
+                <FileText className="w-5 h-5" />
               </a>
             </div>
           </motion.div>
@@ -86,10 +98,11 @@ export const Hero = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-accent to-primary rounded-3xl blur-2xl opacity-20"></div>
               <div className="relative bg-card border-2 border-border rounded-3xl p-2 shadow-lg">
+                {/* GANTI src INI DENGAN FOTO PROFIL KAMU NANTI */}
                 <img
-                  src="/placeholder.svg"
+                  src="/profile.png" 
                   alt="Muhammad Rafli Nugrahasyach"
-                  className="w-full max-w-md rounded-2xl aspect-[3/4] object-cover"
+                  className="w-full max-w-md rounded-2xl aspect-[3/4] object-cover grayscale hover:grayscale-0 transition-all duration-500"
                 />
               </div>
             </div>

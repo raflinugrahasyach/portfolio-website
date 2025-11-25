@@ -1,45 +1,46 @@
 import { motion } from "framer-motion";
-import { Trophy, FileText } from "lucide-react";
+import { Trophy, FileText, Medal } from "lucide-react";
 
 const awards = [
   {
     title: "1st Place National Statistics Challenge",
-    organization: "National Statistics Association",
+    organization: "Universitas Brawijaya",
+    year: "2025",
+  },
+  {
+    title: "1st Place Scientific Paper Competition (EXASTI 1.0)",
+    organization: "BEMP STI",
+    year: "2025",
+  },
+  {
+    title: "Research Grant Recipient (IDR 50M)",
+    organization: "ITS Research Fund - Type A Partnership",
+    year: "2025",
+  },
+  {
+    title: "2nd Place Airlangga Statistics Essay Competition",
+    organization: "Universitas Airlangga",
+    year: "2025",
+  },
+  {
+    title: "2nd Place Statistics Analysis Week",
+    organization: "Universitas Mulawarman",
     year: "2024",
-    type: "award",
-  },
-  {
-    title: "Research Grant Recipient",
-    organization: "Data Science Foundation",
-    year: "2023",
-    type: "award",
-  },
-  {
-    title: "Best Data Visualization Award",
-    organization: "Analytics Summit Conference",
-    year: "2023",
-    type: "award",
   },
 ];
 
 const publications = [
   {
-    title: "Analysis of E-Commerce Adoption Factors in Emerging Markets",
-    journal: "Socius: Sociological Research for a Dynamic World",
+    title: "Analysis of E-Commerce Adoption Factors in Indonesian Provinces Using Factor Analysis",
+    journal: "Socius: Jurnal Penelitian Ilmu-Ilmu Sosial",
     year: "2024",
-    type: "research",
-  },
-  {
-    title: "Predictive Modeling Techniques for Customer Behavior Analysis",
-    journal: "Journal of Data Science Applications",
-    year: "2023",
-    type: "research",
+    desc: "Statistical modeling to identify key drivers of digital adoption across provinces."
   },
 ];
 
 export const Awards = () => {
   return (
-    <section id="awards" className="py-20 px-6">
+    <section id="awards" className="py-20 px-6 bg-muted/30">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -50,7 +51,7 @@ export const Awards = () => {
         >
           <h2 className="text-4xl font-bold mb-4">Honors & Research</h2>
           <p className="text-muted-foreground text-lg">
-            Recognition and contributions to the field of data science
+            Recognition of excellence in Data Science and Statistics
           </p>
         </motion.div>
 
@@ -59,7 +60,7 @@ export const Awards = () => {
           <div>
             <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
               <Trophy className="w-6 h-6 text-primary" />
-              Awards
+              Selected Awards
             </h3>
             <div className="space-y-4">
               {awards.map((award, idx) => (
@@ -69,13 +70,19 @@ export const Awards = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="bg-card border border-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
+                  className="bg-card border border-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow flex items-start gap-4"
                 >
-                  <h4 className="font-semibold mb-2">{award.title}</h4>
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span>{award.organization}</span>
-                    <span className="font-medium text-primary">{award.year}</span>
-                  </div>
+                    <div className="mt-1 p-2 bg-accent/10 rounded-full">
+                        <Medal className="w-4 h-4 text-accent" />
+                    </div>
+                    <div>
+                        <h4 className="font-semibold text-base">{award.title}</h4>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                            <span>{award.organization}</span>
+                            <span className="w-1 h-1 rounded-full bg-border"></span>
+                            <span className="font-medium text-primary">{award.year}</span>
+                        </div>
+                    </div>
                 </motion.div>
               ))}
             </div>
@@ -95,12 +102,13 @@ export const Awards = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="bg-card border border-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
+                  className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
                 >
-                  <h4 className="font-semibold mb-2">{pub.title}</h4>
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span className="italic">{pub.journal}</span>
-                    <span className="font-medium text-primary">{pub.year}</span>
+                  <h4 className="font-semibold text-lg mb-2 leading-snug">{pub.title}</h4>
+                  <p className="text-sm text-muted-foreground mb-3">{pub.desc}</p>
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-secondary text-xs font-medium">
+                    <span className="italic mr-2">{pub.journal}</span>
+                    <span className="font-bold border-l border-border pl-2">{pub.year}</span>
                   </div>
                 </motion.div>
               ))}
