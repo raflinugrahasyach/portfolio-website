@@ -30,7 +30,7 @@ export const Hero = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              Business Statistics Undergraduate & Data Scientist specializing in <b>NLP, LLM, and Computer Vision</b>. 
+              Business Statistics Undergraduate & Data Scientist specializing in <b>NLP, LLM, and Machine Learning</b>. 
               I bridge the gap between raw data and strategic decision-making with impactful AI solutions.
             </p>
 
@@ -78,7 +78,7 @@ export const Hero = () => {
                 <Mail className="w-5 h-5" />
               </a>
                <a
-                href="/CV_Muhammad Rafli Nugrahasyach_GOTO Intern.pdf" 
+                href="/CV_Muhammad Rafli Nugrahasyach_General.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-3 rounded-full border border-border hover:bg-muted transition-colors"
