@@ -1,252 +1,231 @@
+// ============================================================
+// src/components/Projects.tsx
+// Hybrid Quantum Bento -- Uniform filterable grid for all 37 projects.
+// Spotlight section removed (UX tax). Category filter always visible.
+// Real GitHub deep-links from projects.ts data.
+// Full bilingual i18n preserved.
+// ============================================================
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-import { GitBranch } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { GitBranch, ExternalLink, ChevronDown, ChevronUp, Terminal } from "lucide-react";
+import { projects, featuredProjects, PROJECT_CATEGORIES, type ProjectCategory } from "@/data/projects";
+import { useLanguage } from "@/context/LanguageContext";
 
-const categories = ["All", "NLP & LLM", "Computer Vision", "Analytics"];
+const sectionCopy = {
+  en: {
+    label: "PORTFOLIO",
+    heading: "Projects",
+    featuredLabel: "Featured Work",
+    viewAll: `View All ${projects.length} Projects`,
+    collapse: "Show Featured Only",
+    allProjects: "All Projects",
+  },
+  id: {
+    label: "PORTOFOLIO",
+    heading: "Proyek",
+    featuredLabel: "Proyek Unggulan",
+    viewAll: `Lihat Semua ${projects.length} Proyek`,
+    collapse: "Tampilkan Unggulan",
+    allProjects: "Semua Proyek",
+  },
+};
 
-// Gambar default
-const DEFAULT_PROJECT_IMAGE = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000";
+const categoryColors: Record<string, string> = {
+  "Deep Learning":      "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300",
+  "Machine Learning":   "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300",
+  "NLP & LLM":          "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300",
+  "Data Visualization": "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300",
+  "R & Statistics":     "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300",
+  "Web & Apps":         "bg-cyan-50 text-cyan-700 dark:bg-cyan-950/40 dark:text-cyan-300",
+  "Dicoding":           "bg-slate-50 text-slate-600 dark:bg-slate-900 dark:text-slate-400",
+};
 
-const projects = [
-  // --- TOP PRIORITY (FROM CV) ---
-  {
-    id: 1,
-    title: "BizTrack Monitor: AI SME Dashboard",
-    description: "Spearheaded the development of an AI-powered analytics dashboard for SMEs to track financial performance. Designed robust data collection schemas to aggregate sales data from multiple sources.",
-    category: "Analytics",
-    tags: ["AI Dashboard", "Data Analytics", "Business Intel", "Upgrade UMKM"],
-    metric: "Live Production",
-    featured: true,
-    image: "/project-biztrack.jpeg", 
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 2,
-    title: "Stunting Program Sentiment Analysis",
-    description: "Engineered a dual-labeling pipeline using VADER Lexicon and BERT to curate high-quality datasets from Twitter (X). Benchmarked GBT, SVM, and XGBoost models.",
-    category: "NLP & LLM",
-    tags: ["Python", "BERT", "VADER", "XGBoost"],
-    metric: "95.25% Accuracy",
-    featured: true,
-    image: DEFAULT_PROJECT_IMAGE,
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 3,
-    title: "Portfolio Allocation Analysis & Optimization",
-    description: "Debugged and optimized portfolio allocation models in R, using MST & MIS for LQ45 index. Ensured valid Markowitz comparison and Sharpe ratio optimization for investment strategies.",
-    category: "Analytics",
-    tags: ["R Language", "Financial Analytics", "Optimization", "Markowitz"],
-    metric: "Sharpe Ratio Opt",
-    featured: true,
-    image: DEFAULT_PROJECT_IMAGE,
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 4,
-    title: "Shopee App Review Analysis",
-    description: "Built a Sentiment Analysis model for e-commerce reviews. Performed extensive text labeling to categorize slang/abbreviations, creating a clean dataset for training.",
-    category: "NLP & LLM",
-    tags: ["Python", "LDA", "IndoBERT", "SVM"],
-    metric: "87.3% Accuracy",
-    featured: true,
-    image: "/project-shopee.jpg", 
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 5,
-    title: "Diabetic Retinopathy Classification",
-    description: "Fine-tuned a ResNet34 model to classify the severity of diabetic retinopathy from retinal images. Implemented advanced augmentation to handle class imbalance.",
-    category: "Computer Vision",
-    tags: ["PyTorch", "ResNet34", "CNN", "Medical AI"],
-    metric: "81% Accuracy",
-    featured: false,
-    image: "/project-retinopathy.png",
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 6,
-    title: "Political Discourse Classification",
-    description: "Conducted a comparative study between Naive Bayes (TF-IDF) and Fine-tuned IndoBERT to classify public opinion on Twitter. Orchestrated end-to-end workflow from Lexicon-based labeling and Sastrawi stemming to model evaluation.",
-    category: "NLP & LLM",
-    tags: ["IndoBERT", "Naive Bayes", "TF-IDF", "Sastrawi"],
-    metric: "Model Comparison",
-    featured: false,
-    image: DEFAULT_PROJECT_IMAGE,
-    link: "https://github.com/raflinugrahasyach",
-  },
-  
-  // --- EXISTING PROJECTS ---
-  {
-    id: 7,
-    title: "Sentiment Analysis: Indo Social Media",
-    description: "Compared LSTM and MLP models to classify sentiments in 11,000+ Indonesian social media comments. Deployed via Flask API.",
-    category: "NLP & LLM",
-    tags: ["Python", "LSTM", "Flask API", "Deep Learning"],
-    metric: "85% Accuracy",
-    featured: false,
-    image: "/project-binar.png", 
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 8,
-    title: "EV Perception Analysis",
-    description: "Analyzed public perception of Electric Vehicles from YouTube comments using TF-IDF and Logistic Regression.",
-    category: "NLP & LLM",
-    tags: ["Python", "Logistic Regression", "TF-IDF"],
-    metric: "65.1% Accuracy",
-    featured: false,
-    image: "/project-ev.png", 
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 9,
-    title: "Rock-Paper-Scissors Classifier",
-    description: "Built a CNN model to classify hand gestures. Optimized using Adam optimizer and categorical crossentropy loss.",
-    category: "Computer Vision",
-    tags: ["TensorFlow", "Keras", "CNN"],
-    metric: "91% Val Accuracy",
-    featured: false,
-    image: "/project-rps.png", 
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 10,
-    title: "Vehicle CO2 Emission Prediction",
-    description: "Developed a predictive model using XGBoost Regressor to estimate vehicle CO2 emissions based on engine features.",
-    category: "Analytics",
-    tags: ["Python", "XGBoost", "Regression"],
-    metric: "RMSE 20.34",
-    featured: false,
-    image: "/project-emission.png",
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 11,
-    title: "Kuningan Socio-Economic Dashboard",
-    description: "Interactive Power BI dashboard visualizing poverty depth, HDI, and regional revenue for Kuningan Regency.",
-    category: "Analytics",
-    tags: ["Power BI", "Data Viz", "Public Policy"],
-    metric: "Gov Insights",
-    featured: false,
-    image: "/project-kuningan.png",
-    link: "https://github.com/raflinugrahasyach",
-  },
-  {
-    id: 12,
-    title: "Bike Sharing Exploratory Analysis",
-    description: "Comprehensive EDA on bike-sharing datasets to uncover trends related to weather, seasons, and time.",
-    category: "Analytics",
-    tags: ["Python", "EDA", "Visualization"],
-    metric: "Trend Discovery",
-    featured: false,
-    image: "/project-bike.webp", 
-    link: "https://github.com/raflinugrahasyach",
-  },
-];
+const cardVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: (i: number) => ({
+    opacity: 1, y: 0,
+    transition: { delay: i * 0.04, duration: 0.32, ease: "easeOut" },
+  }),
+  exit: { opacity: 0, y: -8, transition: { duration: 0.2 } },
+};
 
-export const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+const ProjectImage = ({ src, alt }: { src: string; alt: string }) => {
+  const [hasError, setHasError] = useState(false);
 
-  const filteredProjects = activeCategory === "All" 
-    ? projects 
-    : projects.filter(p => p.category === activeCategory);
+  if (hasError || !src) {
+    return (
+      <div className="w-full h-32 overflow-hidden border-b border-border bg-muted/40 relative flex flex-col justify-between p-3.5 select-none font-mono bg-[radial-gradient(hsl(var(--border))_1px,transparent_1px)] bg-[length:20px_20px]">
+        {/* Terminal Header */}
+        <div className="flex items-center justify-between text-muted-foreground/60 text-[10px]">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+            <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+            <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+          </div>
+          <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground/70">
+            <Terminal className="w-3 h-3 text-muted-foreground/70" />
+            <span>src/preview.py</span>
+          </div>
+        </div>
+
+        {/* Code / Terminal Skeleton */}
+        <div className="space-y-1.5 my-auto">
+          <div className="flex items-center gap-2">
+            <span className="text-accent text-[11px] font-mono font-semibold">$</span>
+            <div className="h-2 w-32 bg-muted-foreground/20 rounded animate-pulse" />
+          </div>
+          <div className="h-1.5 w-44 bg-muted-foreground/15 rounded ml-3" />
+          <div className="h-1.5 w-24 bg-muted-foreground/10 rounded ml-3" />
+        </div>
+
+        {/* Terminal Footer */}
+        <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground/50 border-t border-border/40 pt-1.5">
+          <span className="text-emerald-500/80 font-medium">READY</span>
+          <span className="truncate max-w-[150px]">{alt}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <section id="projects" className="py-20 px-6">
-      <div className="container mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold mb-4">Featured Projects</h2>
-          <p className="text-muted-foreground text-lg">
-            A collection of my work in Data Science, NLP, and Analytics
-          </p>
-        </motion.div>
+    <div className="w-full h-32 overflow-hidden border-b border-border bg-muted/50 relative">
+      <img
+        src={src}
+        alt={alt}
+        width={400}
+        height={128}
+        onError={() => setHasError(true)}
+        className="w-full h-full object-cover object-top"
+        loading="lazy"
+      />
+    </div>
+  );
+};
 
-        {/* Filter Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
-        >
-          {categories.map((category) => (
+export const Projects = () => {
+  const { lang, t } = useLanguage();
+  const c = sectionCopy[lang];
+  const [showAll, setShowAll] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<ProjectCategory>("All");
+
+  const filteredAll = activeCategory === "All"
+    ? projects
+    : projects.filter((p) => p.category === activeCategory);
+
+  const displayedProjects = showAll ? filteredAll : featuredProjects;
+
+  return (
+    <section id="projects" className="py-16 sm:py-20 px-4 sm:px-6 border-t border-border">
+      <div className="container mx-auto max-w-6xl">
+
+        {/* Section header */}
+        <div className="mb-10">
+          <p className="text-xs font-mono font-semibold tracking-[0.1em] uppercase text-muted-foreground mb-3">
+            {c.label}
+          </p>
+          <h2 className="text-3xl font-bold text-foreground">{c.heading}</h2>
+        </div>
+
+        {/* Category filter -- always visible */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {PROJECT_CATEGORIES.map((cat) => (
             <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                activeCategory === category
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+              key={cat}
+              onClick={() => {
+                setActiveCategory(cat);
+                if (!showAll) setShowAll(true);
+              }}
+              className={`px-3 py-1.5 text-xs font-medium rounded-sm transition-colors border ${
+                activeCategory === cat && showAll
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-transparent text-muted-foreground border-border hover:text-foreground hover:border-foreground/30"
               }`}
             >
-              {category}
+              {cat}
             </button>
           ))}
-        </motion.div>
-
-        {/* 3 Columns Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, idx) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="group bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-default"
-            >
-              <div className="relative h-48 overflow-hidden bg-muted flex items-center justify-center">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  onError={(e) => {
-                    e.currentTarget.src = DEFAULT_PROJECT_IMAGE;
-                  }}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold border border-white/10">
-                  {project.metric}
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-3">
-                    <div>
-                        <span className="text-xs font-semibold text-accent uppercase tracking-wider mb-1 block">{project.category}</span>
-                        <h3 className="text-lg font-bold group-hover:text-primary transition-colors line-clamp-2">
-                        {project.title}
-                        </h3>
-                    </div>
-                    <div className="flex gap-2">
-                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="p-2 bg-muted rounded-full hover:bg-primary hover:text-white transition-colors">
-                            <GitBranch className="w-4 h-4" />
-                        </a>
-                    </div>
-                </div>
-                
-                <p className="text-muted-foreground mb-5 text-sm leading-relaxed line-clamp-3">
-                  {project.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-xs font-normal px-2 py-1 bg-secondary/50">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
         </div>
+
+        {/* Featured label when in featured mode */}
+        {!showAll && (
+          <p className="text-xs font-mono text-muted-foreground mb-4 uppercase tracking-widest">
+            {c.featuredLabel}
+          </p>
+        )}
+
+        {/* Project grid -- 3-col, uniform cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
+          <AnimatePresence mode="popLayout">
+            {displayedProjects.map((project, i) => (
+              <motion.a
+                key={project.id}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                layout
+                className="group flex flex-col rounded-sm border border-border bg-card hover:border-accent/40 hover:-translate-y-0.5 transition-all duration-200 overflow-hidden"
+              >
+                <ProjectImage src={project.image} alt={t(project.title)} />
+
+                <div className="flex flex-col flex-1 p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-sm ${categoryColors[project.category] || "bg-muted text-muted-foreground"}`}>
+                      {project.category}
+                    </span>
+                    <span className="text-xs font-mono text-muted-foreground">{project.metric}</span>
+                  </div>
+
+                  <h3 className="text-sm font-semibold text-foreground mb-2 leading-snug group-hover:text-accent transition-colors line-clamp-2">
+                    {t(project.title)}
+                  </h3>
+
+                  <p className="text-xs text-muted-foreground leading-relaxed mb-3 flex-1 line-clamp-3">
+                    {t(project.description)}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {project.tags.slice(0, 4).map((tag) => (
+                      <span key={tag} className="text-xs font-mono px-1.5 py-0.5 rounded-sm bg-muted text-muted-foreground">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-3 border-t border-border">
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <GitBranch className="w-3 h-3" />
+                      <span>GitHub</span>
+                    </div>
+                    <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-accent transition-colors" />
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* View all / show featured toggle */}
+        <div className="flex justify-center">
+          <button
+            onClick={() => {
+              setShowAll(!showAll);
+              if (showAll) setActiveCategory("All");
+            }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-sm border border-border text-foreground hover:bg-muted transition-colors"
+          >
+            {showAll ? (
+              <><ChevronUp className="w-4 h-4" />{c.collapse}</>
+            ) : (
+              <><ChevronDown className="w-4 h-4" />{c.viewAll}</>
+            )}
+          </button>
+        </div>
+
       </div>
     </section>
   );

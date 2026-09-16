@@ -1,143 +1,205 @@
+// ============================================================
+// src/components/Navigation.tsx
+// Adopted from competitor: top announcement bar
+// Superior execution: no globe emoji, proper EN/ID segmented control
+// + Scroll Progress Rail (Framer Motion useScroll + useSpring)
+// ============================================================
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Download, Menu } from "lucide-react";
+import { Download, Menu, Sun, Moon, MapPin } from "lucide-react";
+import { CV_PATH } from "@/data/social";
+import { useLanguage } from "@/context/LanguageContext";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "Projects", href: "#projects" },
-  { name: "Experience", href: "#experience" },
-  { name: "Research", href: "#research" },
-  { name: "Awards", href: "#awards" },
-  { name: "Contact", href: "#contact" },
+  { en: "About",      id: "Tentang",     href: "#home" },
+  { en: "Projects",   id: "Portofolio",  href: "#projects" },
+  { en: "Stack",      id: "Teknologi",   href: "#techstack" },
+  { en: "Experience", id: "Pengalaman",  href: "#experience" },
+  { en: "Awards",     id: "Penghargaan", href: "#awards" },
+  { en: "Contact",    id: "Kontak",      href: "#contact" },
 ];
 
+const announcementCopy = {
+  en: "Currently in Surabaya, Indonesia - Open to opportunities globally",
+  id: "Saat ini di Surabaya, Indonesia - Terbuka untuk peluang global",
+};
+
+const ThemeToggle = () => {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return <div className="w-8 h-8" />;
+  return (
+    <button
+      className="w-8 h-8 flex items-center justify-center rounded text-muted-foreground hover:text-foreground transition-colors"
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      aria-label="Toggle dark mode"
+    >
+      {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+    </button>
+  );
+};
+
+const LanguageToggle = () => {
+  const { lang, setLang } = useLanguage();
+  return (
+    <div
+      className="flex items-center border border-border rounded overflow-hidden"
+      role="group"
+      aria-label="Language toggle"
+    >
+      <button
+        onClick={() => setLang("en")}
+        className={`px-2.5 py-1 text-xs font-semibold transition-colors ${
+          lang === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+        }`}
+        aria-pressed={lang === "en"}
+      >EN</button>
+      <button
+        onClick={() => setLang("id")}
+        className={`px-2.5 py-1 text-xs font-semibold transition-colors ${
+          lang === "id" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+        }`}
+        aria-pressed={lang === "id"}
+      >ID</button>
+    </div>
+  );
+};
+
 export const Navigation = () => {
+  const { lang } = useLanguage();
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Scroll progress rail
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-      
-      const sections = navLinks.map(link => link.href.substring(1));
+      const sections = navLinks.map((l) => l.href.substring(1));
       for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
-            break;
-          }
+        const el = document.getElementById(section);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) { setActiveSection(section); break; }
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
+  const scrollTo = (href: string) => {
     setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <nav
-      className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[90%] md:w-auto ${
-        isScrolled ? "top-3 md:top-4" : "top-5 md:top-6"
-      }`}
-    >
-      <div className="bg-card/80 backdrop-blur-md border border-border rounded-full px-6 py-3 shadow-sm shadow-black/5 flex items-center justify-between md:justify-center">
-        
-        {/* Mobile Brand - Hanya muncul di HP agar Navbar tidak kosong */}
-        <a href="#" className="md:hidden font-bold text-lg tracking-tight mr-auto" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-          Rafli<span className="text-primary">.</span>
-        </a>
+    <header className="fixed top-0 left-0 right-0 z-50">
+      {/* Scroll Progress Rail — sits at the very top */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-[2px] origin-left z-[100]"
+        style={{
+          scaleX,
+          background: "hsl(213 85% 48%)",
+        }}
+      />
 
-        {/* DESKTOP NAVIGATION (Hidden on Mobile) */}
-        <div className="hidden md:flex items-center gap-8">
-          <div className="flex items-center gap-6">
+      {/* Announcement bar */}
+      <div className="bg-accent text-accent-foreground text-xs font-medium py-2 px-4 text-center flex items-center justify-center gap-2 overflow-hidden">
+        <MapPin className="w-3 h-3 shrink-0" />
+        <span className="hidden sm:inline">{announcementCopy[lang]}</span>
+        <span className="sm:hidden">Surabaya, Indonesia</span>
+      </div>
+
+      {/* Main nav */}
+      <nav className={`transition-all duration-200 ${isScrolled ? "border-b border-border bg-background/95 backdrop-blur-sm" : "bg-transparent"}`}>
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6 h-14 flex items-center justify-between">
+          {/* Logo */}
+          <a
+            href="#"
+            className="font-bold text-base tracking-tight text-foreground"
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          >
+            Rafli<span className="text-accent">.</span>
+          </a>
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-5">
             {navLinks.map((link) => (
               <a
-                key={link.name}
+                key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
+                className={`text-sm font-medium transition-colors ${
                   activeSection === link.href.substring(1)
-                    ? "text-primary"
-                    : "text-muted-foreground"
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {link.name}
+                {link[lang]}
               </a>
             ))}
           </div>
-          <a 
-            href="/CV_Muhammad Rafli Nugrahasyach_General.pdf" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            title="Download Resume"
-          >
-            <Button
-              size="sm"
-              className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Resume
-            </Button>
-          </a>
-        </div>
 
-        {/* MOBILE NAVIGATION TRIGGER (Hamburger) */}
-        <div className="md:hidden">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
-                <Menu className="w-5 h-5" />
+          {/* Controls */}
+          <div className="hidden md:flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+            <a href={CV_PATH} target="_blank" rel="noopener noreferrer">
+              <Button size="sm" className="h-8 px-3 text-xs rounded font-medium">
+                <Download className="w-3.5 h-3.5 mr-1.5" />
+                {lang === "en" ? "Resume" : "Unduh CV"}
               </Button>
-            </SheetTrigger>
-            <SheetContent side="top" className="pt-16 rounded-b-2xl border-b border-border/50 bg-card/95 backdrop-blur-xl">
-              <div className="flex flex-col items-center gap-6">
-                <div className="flex flex-col items-center gap-4 w-full">
+            </a>
+          </div>
+
+          {/* Mobile */}
+          <div className="flex md:hidden items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <button className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground" aria-label="Open menu">
+                  <Menu className="w-4 h-4" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-72 pt-14">
+                <nav className="flex flex-col gap-1">
                   {navLinks.map((link) => (
                     <a
-                      key={link.name}
+                      key={link.href}
                       href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.href);
-                      }}
-                      className={`text-lg font-medium transition-colors hover:text-primary ${
+                      onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
+                      className={`px-3 py-2 text-sm font-medium rounded transition-colors ${
                         activeSection === link.href.substring(1)
-                          ? "text-primary"
-                          : "text-muted-foreground"
+                          ? "text-foreground bg-muted"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
                       }`}
                     >
-                      {link.name}
+                      {link[lang]}
                     </a>
                   ))}
-                </div>
-                
-                <a 
-                  href="/CV_Muhammad Rafli Nugrahasyach_General.pdf" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-full max-w-xs"
-                >
-                  <Button size="lg" className="w-full rounded-full bg-primary">
-                    <Download className="w-4 h-4 mr-2" />
-                    Resume
-                  </Button>
-                </a>
-              </div>
-            </SheetContent>
-          </Sheet>
+                  <div className="mt-4 pt-4 border-t border-border">
+                    <a href={CV_PATH} target="_blank" rel="noopener noreferrer">
+                      <Button size="sm" className="w-full h-9 text-sm font-medium rounded">
+                        <Download className="w-4 h-4 mr-2" />
+                        {lang === "en" ? "Download Resume" : "Unduh CV"}
+                      </Button>
+                    </a>
+                  </div>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };

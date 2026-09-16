@@ -1,59 +1,49 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
+import { techCategories } from "@/data/techstack";
+import { useLanguage } from "@/context/LanguageContext";
 
-const techCategories = [
-  {
-    title: "Languages",
-    items: ["Python", "SQL", "R"],
-  },
-  {
-    title: "Core AI & ML",
-    items: ["TensorFlow", "PyTorch", "Scikit-learn", "Pandas", "NumPy"],
-  },
-  {
-    title: "NLP & LLM",
-    items: ["HuggingFace", "BERT", "Transformers", "VADER", "NLTK"],
-  },
-  {
-    title: "Data Viz & Tools",
-    items: ["Streamlit", "Tableau", "Power BI", "Gephi", "Git/GitHub"],
-  },
-];
+const fadeUp = (i: number) => ({
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { delay: i * 0.05, duration: 0.35, ease: "easeOut" } },
+});
+
+const sectionCopy = {
+  en: { label: "CAPABILITIES", heading: "Technical Stack" },
+  id: { label: "KEMAMPUAN", heading: "Tumpukan Teknologi" },
+};
 
 export const TechStack = () => {
-  return (
-    <section className="py-20 px-6">
-      <div className="container mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl font-bold mb-4">Tech Stack</h2>
-          <p className="text-muted-foreground">
-            Technologies and tools I use to build robust AI solutions
-          </p>
-        </motion.div>
+  const { lang, t } = useLanguage();
+  const c = sectionCopy[lang];
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {techCategories.map((category, idx) => (
+  return (
+    <section id="techstack" className="py-20 px-6 border-t border-border">
+      <div className="container mx-auto max-w-6xl">
+        {/* Section header */}
+        <div className="mb-12">
+          <p className="text-xs font-medium tracking-[0.08em] uppercase text-muted-foreground mb-3">{c.label}</p>
+          <h2 className="text-3xl font-bold text-foreground">{c.heading}</h2>
+        </div>
+
+        {/* Tech grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+          {techCategories.map((cat, i) => (
             <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+              key={cat.title.en}
+              variants={fadeUp(i)}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-50px" }}
+              className="flex flex-col gap-3"
             >
-              <h3 className="font-semibold text-lg mb-4 text-primary border-b border-border pb-2">
-                {category.title}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {category.items.map((item) => (
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.06em]">
+                {t(cat.title)}
+              </p>
+              <div className="flex flex-col gap-1.5">
+                {cat.items.map((item) => (
                   <span
                     key={item}
-                    className="px-3 py-1 bg-secondary text-secondary-foreground rounded-md text-sm font-medium"
+                    className="text-sm text-foreground font-medium py-1 px-2 rounded bg-muted border border-border/60 font-mono"
                   >
                     {item}
                   </span>

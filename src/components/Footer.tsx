@@ -1,40 +1,41 @@
-import { Linkedin, Github, Mail } from "lucide-react";
+﻿// ============================================================
+// src/components/Footer.tsx — Minimal enterprise footer
+// ============================================================
+import { Linkedin, Github, Mail, MessageCircle, Instagram } from "lucide-react";
+import { SOCIAL_LINKS } from "@/data/social";
+import { useLanguage } from "@/context/LanguageContext";
+
+const footerLinks = [
+  { icon: Linkedin, href: SOCIAL_LINKS.linkedin, label: "LinkedIn" },
+  { icon: Github, href: SOCIAL_LINKS.github, label: "GitHub" },
+  { icon: Mail, href: `mailto:${SOCIAL_LINKS.email}`, label: "Email" },
+  { icon: MessageCircle, href: SOCIAL_LINKS.whatsapp, label: "WhatsApp" },
+  { icon: Instagram, href: SOCIAL_LINKS.instagram, label: "Instagram" },
+];
 
 export const Footer = () => {
+  const { lang } = useLanguage();
   return (
-    <footer className="py-12 px-6 border-t border-border bg-card">
+    <footer className="py-10 px-6 border-t border-border">
       <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-center md:text-left">
-            <h3 className="font-bold text-lg mb-1">Muhammad Rafli Nugrahasyach</h3>
-            <p className="text-sm text-muted-foreground">
-              © 2025. Built with React, Tailwind, and Data Science passion.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <a
-              href="https://www.linkedin.com/in/raflinugrahasyach/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a
-              href="https://github.com/raflinugrahasyach"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-            >
-              <Github className="w-5 h-5" />
-            </a>
-            <a
-              href="mailto:raflinugrahasyach26@gmail.com"
-              className="p-2 rounded-full hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-            >
-              <Mail className="w-5 h-5" />
-            </a>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} Muhammad Rafli Nugrahasyach.{" "}
+            {lang === "en" ? "All rights reserved." : "Semua hak dilindungi."}
+          </p>
+          <div className="flex items-center gap-1">
+            {footerLinks.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="w-8 h-8 flex items-center justify-center rounded text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Icon className="w-4 h-4" />
+              </a>
+            ))}
           </div>
         </div>
       </div>
