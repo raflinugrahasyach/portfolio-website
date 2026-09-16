@@ -15,7 +15,7 @@ const copy = {
     eyebrow: "BNSP-Certified - Edge AI - NLP - Time-Series",
     name: "Muhammad Rafli N.",
     role: "Data Scientist & Machine Learning Engineer",
-    sub: "Specializing in NLP, Edge AI, and Time-Series Forecasting. Currently evaluating LLMs on NVIDIA Jetson hardware at CERDAS UTP Malaysia.",
+    sub: "Specializing in NLP, Edge AI, and Time-Series Forecasting. Previously evaluated LLMs on NVIDIA Jetson hardware at CERDAS UTP Malaysia.",
     cta1: "Explore Projects",
     cta2: "Download CV",
     stat1v: "12+",
@@ -34,7 +34,7 @@ const copy = {
     eyebrow: "Bersertifikasi BNSP - Edge AI - NLP - Time-Series",
     name: "Muhammad Rafli N.",
     role: "Data Scientist & Machine Learning Engineer",
-    sub: "Spesialisasi NLP, Edge AI, dan Time-Series Forecasting. Saat ini mengevaluasi LLM pada perangkat NVIDIA Jetson di CERDAS UTP Malaysia.",
+    sub: "Spesialisasi NLP, Edge AI, dan Time-Series Forecasting. Sebelumnya mengevaluasi LLM pada perangkat NVIDIA Jetson di CERDAS UTP Malaysia.",
     cta1: "Lihat Proyek",
     cta2: "Unduh CV",
     stat1v: "12+",
@@ -144,7 +144,7 @@ export const Hero = () => {
             variants={bentoVariants}
             initial="hidden"
             animate="show"
-            className="lg:col-span-7 flex flex-col justify-between border border-border rounded-sm bg-card p-5 sm:p-7 lg:p-10 min-h-[460px]"
+            className="lg:col-span-7 flex flex-col justify-between border border-border rounded-sm bg-card p-4 sm:p-7 lg:p-10 min-h-[460px]"
           >
             <motion.div
               variants={containerVariants}
@@ -163,8 +163,8 @@ export const Hero = () => {
               {/* Name — clamp prevents overflow on all viewports */}
               <motion.h1
                 variants={itemVariants}
-                className="font-bold leading-tight tracking-tight text-foreground mb-4 sm:whitespace-nowrap"
-                style={{ fontSize: "clamp(1.75rem, 6vw, 3.8rem)" }}
+                className="font-bold leading-tight tracking-tight text-foreground mb-4 break-words"
+                style={{ fontSize: "clamp(1.4rem, 5.5vw, 3.8rem)" }}
               >
                 {c.name}
               </motion.h1>
@@ -267,7 +267,7 @@ export const Hero = () => {
               variants={bentoVariants}
               initial="hidden"
               animate="show"
-              className="grid grid-cols-3 gap-3"
+              className="grid grid-cols-1 sm:grid-cols-3 gap-3"
             >
               {/* Stat 1: 12+ National Competitions */}
               <div className="border border-border rounded-sm bg-card p-3 sm:p-4 flex flex-col justify-between min-h-[100px]">

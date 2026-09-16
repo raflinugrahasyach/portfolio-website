@@ -9,7 +9,7 @@ import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden w-full max-w-[100vw]">
       <Navigation />
       <Hero />
       <TechStack />

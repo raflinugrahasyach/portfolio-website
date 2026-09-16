@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // src/components/Awards.tsx
 // Hybrid Quantum Bento -- Hall of Fame Architecture
 // Fix: Removed getRankStyle conditional coloring -- uniform monochrome
@@ -161,7 +161,7 @@ export const Awards = () => {
         </div>
 
         {/* LOWER TIER: 3-column clinical monochrome grid (NO rank coloring) */}
-        <div className="grid md:grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-3 gap-6 sm:gap-10">
           {/* Competition Record -- uniform monochrome, no rank color */}
           <div>
             <h3 className="text-xs font-mono font-semibold tracking-[0.1em] uppercase text-muted-foreground mb-4">

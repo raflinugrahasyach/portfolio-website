@@ -94,7 +94,41 @@ export const projects: Project[] = [
   {id:29,title:{en:"Malaria Monitoring - R Shiny Dashboard",id:"Monitoring Malaria - Dashboard R Shiny"},description:{en:"Interactive R Shiny dashboard for provincial malaria case monitoring in Indonesia. Leaflet map integration, time-series trend panels, and downloadable PDF reports.",id:"Dashboard R Shiny interaktif untuk monitoring kasus malaria per provinsi di Indonesia. Integrasi peta Leaflet, panel tren time-series, dan laporan PDF."},category:"R & Statistics",tags:["R","Shiny","Leaflet","Malaria"],metric:"Leaflet Maps",featured:false,link:`${GH}/R_Programming/Malaria_Monitoring_Shiny_Dashboard`,image:`${RAW}/R_Programming/Malaria_Monitoring_Shiny_Dashboard/preview.png`},
   {id:30,title:{en:"LUMBUNG.AI - National Food Security Forecasting",id:"LUMBUNG.AI - Peramalan Ketahanan Pangan Nasional"},description:{en:"National food security forecasting platform using ARIMA, SARIMA, and XGBoost ensemble to predict commodity supply-demand gaps across Indonesian provinces. R Shiny policy-support dashboard.",id:"Platform peramalan ketahanan pangan nasional menggunakan ensemble ARIMA, SARIMA, dan XGBoost untuk memprediksi kesenjangan suplai-demand komoditas. Dashboard R Shiny untuk kebijakan."},category:"R & Statistics",tags:["R","ARIMA","SARIMA","XGBoost","Shiny","Food Security"],metric:"National Coverage",featured:true,link:`${GH}/R_Programming/Wildfire_Prediction_DWD_RF`,image:`${RAW}/R_Programming/Wildfire_Prediction_DWD_RF/preview.png`},
   {id:31,title:{en:"Markowitz Portfolio Optimization - R",id:"Optimasi Portofolio Markowitz - R"},description:{en:"Modern Portfolio Theory in R: efficient frontier, Sharpe-ratio-maximizing portfolio, and minimum-variance portfolio for 10 LQ45 stocks with Monte Carlo simulation.",id:"Modern Portfolio Theory dalam R: efficient frontier, portofolio Sharpe-ratio maksimum, dan minimum-variance untuk 10 saham LQ45 dengan simulasi Monte Carlo."},category:"R & Statistics",tags:["R","Markowitz","MPT","Monte Carlo","Finance"],metric:"Efficient Frontier",featured:false,link:`${GH}/R_Programming/Markowitz_Portfolio_Optimization`,image:`${RAW}/R_Programming/Markowitz_Portfolio_Optimization/preview.png`},
-  // WEB & APPS
+    // WEB & APPS
+  {
+    id: 998,
+    title: {
+      en: "Upgrade UMKM - AI-Powered SME Analytics",
+      id: "Upgrade UMKM - Analitik UMKM AI",
+    },
+    description: {
+      en: "Served as Chief Analytics Officer. Built BizTrack Monitor and a chat-based AI consultant to analyze business data for over 5000+ registered SMEs.",
+      id: "Menjabat sebagai CAO. Membangun BizTrack Monitor dan konsultan AI berbasis chat untuk menganalisis data bisnis bagi 5000+ UMKM terdaftar.",
+    },
+    category: "Web & Apps",
+    tags: ["Live Production", "AI Consultant", "Dashboard"],
+    metric: "5000+ Active SMEs",
+    featured: false,
+    link: "https://upgradeumkm.id/",
+    image: "/upgradeumkm.png",
+  },
+  {
+    id: 997,
+    title: {
+      en: "CV Putra Terbaik - Corporate Platform",
+      id: "CV Putra Terbaik - Platform Perusahaan",
+    },
+    description: {
+      en: "Managed full-stack website development, technical SEO, and digital marketing tracking, driving a 25% improvement in advertising effectiveness.",
+      id: "Mengelola pengembangan web full-stack, SEO teknis, dan pelacakan pemasaran digital, meningkatkan efektivitas iklan hingga 25%.",
+    },
+    category: "Web & Apps",
+    tags: ["Live Production", "SEO", "Full-Stack"],
+    metric: "Live Corporate Site",
+    featured: false,
+    link: "https://www.putraterbaik.com/",
+    image: "/putraterbaik.png",
+  },
   {id:32,title:{en:"Heart Failure AI Assistant - FastAPI + React",id:"Asisten AI Gagal Jantung - FastAPI + React"},description:{en:"Clinical decision-support tool predicting 30-day heart failure mortality risk. XGBoost backend (FastAPI) + React frontend with SHAP waterfall plot explanations for clinicians.",id:"Alat dukungan keputusan klinis memprediksi risiko mortalitas gagal jantung 30 hari. Backend XGBoost (FastAPI) + frontend React dengan penjelasan SHAP waterfall."},category:"Web & Apps",tags:["React","FastAPI","XGBoost","SHAP","Clinical AI"],metric:"Clinical XAI",featured:true,link:`${GH}/Web_Development/Heart_Failure_AI_Assistant`,image:`${RAW}/Web_Development/Heart_Failure_AI_Assistant/preview.png`},
   {id:33,title:{en:"Poverty Classification - SVM Live Prediction",id:"Klasifikasi Kemiskinan - Prediksi Live SVM"},description:{en:"SVM-based poverty classification for Indonesian regency-level data. Real-time web interface with 12 socioeconomic indicator inputs for live household poverty prediction.",id:"Klasifikasi kemiskinan berbasis SVM untuk data tingkat kabupaten Indonesia. Antarmuka web real-time dengan 12 indikator sosio-ekonomi untuk prediksi kemiskinan."},category:"Web & Apps",tags:["Python","SVM","Streamlit","Socioeconomics"],metric:"Live Prediction",featured:false,link:`${GH}/Web_Development/Poverty_Classification_SVM_System`,image:`${RAW}/Web_Development/Poverty_Classification_SVM_System/preview.png`},
   {id:34,title:{en:"SpecBudget - PC Build Planner App",id:"SpecBudget - Aplikasi Perencana Build PC"},description:{en:"Web-based PC component recommendation within user-defined budget constraints. CodeIgniter 4 backend + vanilla JS with real-time compatibility checks and price estimation.",id:"Rekomendasi komponen PC berbasis web dalam batasan anggaran. Backend CodeIgniter 4 + JS murni dengan pemeriksaan kompatibilitas real-time dan estimasi harga."},category:"Web & Apps",tags:["JavaScript","CodeIgniter","PHP","Budget Optimizer"],metric:"Budget Optimizer",featured:false,link:`${GH}/Web_Development/SpecBudget_PC_Build_Planner`,image:`${RAW}/Web_Development/SpecBudget_PC_Build_Planner/preview.png`},
