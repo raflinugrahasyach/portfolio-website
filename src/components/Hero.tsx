@@ -160,13 +160,13 @@ export const Hero = () => {
                 {c.eyebrow}
               </motion.p>
 
-              {/* Name — clamp prevents overflow on all viewports */}
+              {/* Name — unbreakable 'Rafli N.' span prevents single-letter orphaned wrap */}
               <motion.h1
                 variants={itemVariants}
                 className="font-bold leading-tight tracking-tight text-foreground mb-4 break-words"
-                style={{ fontSize: "clamp(1.4rem, 5.5vw, 3.8rem)" }}
+                style={{ fontSize: "clamp(1.5rem, 4.2vw, 3.25rem)" }}
               >
-                {c.name}
+                Muhammad <span className="whitespace-nowrap">Rafli N.</span>
               </motion.h1>
 
               <motion.p
