@@ -80,7 +80,7 @@ export const workExperience: WorkExperience[] = [
       id: "Co-Founder & Chief Analytics Officer (CAO)",
     },
     company: "Upgrade UMKM, PT Digital Nusantara Innovations",
-    period: "Jan 2024 - Jan 2025",
+    period: "Jan 2024 - Jan 2026",
     details: {
       en: [
         "Co-founded Upgrade UMKM (5-person founding team) and served as Chief Analytics Officer, leading the development of BizTrack Monitor, an AI-powered business analytics platform for SMEs.",
@@ -102,7 +102,7 @@ export const workExperience: WorkExperience[] = [
       id: "Analis Bisnis Digital Freelance",
     },
     company: "CV Putra Terbaik",
-    period: "Jun 2023 - Present",
+    period: "Jun 2023 - Feb 2026",
     details: {
       en: [
         "Managed full-stack website development and technical SEO, contributing to up to a 25% improvement in advertising effectiveness.",
