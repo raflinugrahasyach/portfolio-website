@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // src/data/experience.ts - Work, Education, Certifications, Organizations
 // Bilingual (EN/ID) schema
 // ============================================================
@@ -32,6 +32,26 @@ export interface Organization {
 }
 
 export const workExperience: WorkExperience[] = [
+  {
+    role: {
+      en: "Independent Data Scientist",
+      id: "Data Scientist Independen",
+    },
+    company: "raflinugraha.com",
+    period: "Jan 2024 - Present",
+    details: {
+      en: [
+        "Built an end-to-end NLP pipeline to analyze consumer sentiment on electric vehicles. Applied TF-IDF and cloglog calibration to handle extreme class imbalance, achieving a 0.89 ROC-AUC score.",
+        "Developed a two-stage machine learning system using K-Means clustering and Random Forest to classify customers in real time with over 94% accuracy, eliminating the need for database re-clustering.",
+        "Created a Deep Learning clinical triage system (ResNet34) with progressive fine-tuning to classify eye disease severity from images, reaching 98% precision and recall for healthy patient screening.",
+      ],
+      id: [
+        "Membangun pipeline NLP end-to-end untuk menganalisis sentimen konsumen terhadap kendaraan listrik. Menerapkan TF-IDF dan kalibrasi cloglog untuk menangani ketidakseimbangan kelas ekstrem, mencapai skor ROC-AUC 0.89.",
+        "Mengembangkan sistem machine learning dua tahap menggunakan K-Means clustering dan Random Forest untuk mengklasifikasikan pelanggan secara real-time dengan akurasi lebih dari 94%, menghilangkan kebutuhan re-clustering database.",
+        "Membuat sistem triase klinis Deep Learning (ResNet34) dengan fine-tuning progresif untuk mengklasifikasikan tingkat keparahan penyakit mata dari gambar, mencapai presisi dan recall 98% untuk skrining pasien sehat.",
+      ],
+    },
+  },
   {
     role: {
       en: "Data Scientist Intern",
